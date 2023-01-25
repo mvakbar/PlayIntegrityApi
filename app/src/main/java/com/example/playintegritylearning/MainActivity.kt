@@ -26,10 +26,8 @@ class MainActivity : AppCompatActivity() {
 
     private fun getIntegrityToken() {
         val nonce: String = generateNonce()
-
         // Create an instance of a manager.
         val integrityManager = IntegrityManagerFactory.create(applicationContext)
-
         // Request the integrity token by providing a nonce.
         val integrityTokenResponse = integrityManager.requestIntegrityToken(
             IntegrityTokenRequest.builder()
@@ -40,7 +38,7 @@ class MainActivity : AppCompatActivity() {
         integrityTokenResponse.addOnSuccessListener { integrityTokenResponse: IntegrityTokenResponse ->
             val integrityToken = integrityTokenResponse.token()
             binding.textView2.text = integrityToken
-//            In here , you should send integrityToken to your app's backend
+//            In here you should send integrityToken to your app's backend
 //            sendIntegrityTokenToServer(integrityToken)
         }
         integrityTokenResponse.addOnFailureListener { e: Exception? ->
@@ -63,12 +61,8 @@ class MainActivity : AppCompatActivity() {
 
 
     fun sendIntegrityTokenToServer(integrityToken: String) {
-        val retrofit = Retrofit.Builder()
-            .baseUrl(BaseUrl)
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
 
-        val service = retrofit.create(ServiceApi::class.java)
+        val service = RetrofitHelper.getInstance().create(ServiceApi::class.java)
         val call = service.verifyIntegrityToken(integrityToken)
 
         call.enqueue(object : Callback<String> {
@@ -87,14 +81,8 @@ class MainActivity : AppCompatActivity() {
 
     fun getUniqueValue(): String {
         var uniqueValue = ""
-        val retrofit = Retrofit.Builder()
-            .baseUrl(BaseUrl)
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-
-        val service = retrofit.create(ServiceApi::class.java)
+        val service = RetrofitHelper.getInstance().create(ServiceApi::class.java)
         val call = service.getUniqueValue()
-
         call.enqueue(object : Callback<String> {
             override fun onResponse(call: Call<String>, response: Response<String>) {
                 if (response.code() == 200) {
@@ -111,8 +99,4 @@ class MainActivity : AppCompatActivity() {
         return uniqueValue
     }
 
-    companion object {
-        var BaseUrl = "http://api.test/"
-
-    }
 }
