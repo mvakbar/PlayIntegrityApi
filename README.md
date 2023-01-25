@@ -3,7 +3,7 @@ Play Integrity API android kotlin
 
 If you decide to use the Play Integrity API, you should do the following. 
 
-1. First od all you should add implementation of Play-Integrity-API in buil.gradle 
+1. First of all you should add implementation of Play-Integrity-API in buil.gradle 
 
         implementation com.google.android.play:integrity:1.0.2
 
@@ -12,6 +12,7 @@ If you decide to use the Play Integrity API, you should do the following.
         private fun generateNonce(): String? {
          val length = 50
          var nonce = ""
+         
          val allowed = "ABCDEFGHIJKLMNOPQRSTUVWXYZertqwrtabcdefghijklmnopqrstuvwxyz012sdsad3456789"
          for (i in 0 until length) {
              nonce = nonce + allowed[Math.floor(Math.random() * allowed.length).toInt()].toString()
@@ -35,11 +36,11 @@ If you decide to use the Play Integrity API, you should do the following.
         )
         integrityTokenResponse.addOnSuccessListener { integrityTokenResponse: IntegrityTokenResponse ->
            val integrityToken = integrityTokenResponse.token()
-  <!--      If there is not any problem , and recuest is succefull        -->
-  <!--      After getting integrityToken , you send it to app's server-side backend than  backend  return you decision   -->
+        <!--      If there is not any problem , and recuest is succefull        -->
+        <!--      After getting integrityToken , you send it to app's server-side backend than  backend  return you decision   -->
         }
-         integrityTokenResponse.addOnFailureListener { e: Exception? ->
-          <!--      If there is any problem -->     
+        integrityTokenResponse.addOnFailureListener { e: Exception? ->
+         <!--      If there is any problem -->     
         }
         
     
